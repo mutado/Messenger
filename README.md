@@ -23,8 +23,9 @@ How to setup
 <hr>
 
 TODO:
-- [ ] User registration and authentication
-  - [ ] Simple registration without security
+- [x] User registration and authentication
+  - [x] Simple registration without security
+  - [x] JSON Web Tokens 
   - [ ] Secured authorization
 - [ ] Send messages
 - [ ] Encrypt Messeges
