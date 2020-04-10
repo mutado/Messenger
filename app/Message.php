@@ -12,7 +12,7 @@ class Message extends Model
      * @var array
      */
     protected $fillable = [
-        'content','userSender', 'channel', 'send_at', 'recieved','seen'
+        'content','userSender', 'channelId', 'send_at', 'recieved','seen'
     ];
 
     /**

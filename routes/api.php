@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     Route::post('details', 'API\UserController@details');
     Route::get('profile','API\UserController@getProfile');
-    
+
     Route::get('user','API\UserController@getAll');
     Route::get('user/channels','API\ChannelController@getUserChannels');
 
@@ -38,6 +38,6 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('channel','API\ChannelController@store');
     Route::get('channel/{id}','API\ChannelController@getById');
     Route::get('channel/{channelId}/messages','API\ChannelController@getMessages');
-
     Route::get('channel/join/{id}','API\UserChannelsController@join');
+
 });

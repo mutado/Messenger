@@ -43,11 +43,10 @@ class MessageController extends Controller
     {
         $validator = Validator::make($request->all(), [ 
             'content' => 'required',
-            'channel' => 'required|integer|exists:App\Channel,id', 
-            'send_at' => 'required|date', 
+            'channelId' => 'required|integer|exists:App\Channel,id',
         ]);
         if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors()], 401);            
+            return response()->json(['error'=>$validator->errors()], 400);            
         }
         $input = $request->all();
         $input['userSender'] = Auth::user()['id'];
