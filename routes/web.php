@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/t', function () {
+    event(new \App\Events\MessageSent());
+    dd('Event Run Successfully.');
+});
