@@ -52,7 +52,11 @@ class MessageController extends Controller
         $input['userSender'] = Auth::user()['id'];
         $input['recieved']= Carbon::now();
         $input['seen'] = false;
+
         $msg = Message::create($input);
+
+        // Call new message event
+        \broadcast(new \App\Events\MessageSent($msg))->toOthers();
 
         return response()->json(['success'=>$msg], $this->createdStatus); 
     }

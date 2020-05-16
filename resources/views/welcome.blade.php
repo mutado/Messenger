@@ -12,9 +12,9 @@
     </head>
     <body>
         <div class="container">
-            <h1>Laravel Broadcast Redis Socket io Tutorial - ItSolutionStuff.com</h1>
-            
+            <h1>Messager</h1>
             <div id="notification"></div>
+            <p>{{ Request::getHost() }}:{{env('LARAVEL_ECHO_PORT')}}</p>
         </div>
     </body>
   
@@ -26,7 +26,7 @@
       
     <script type="text/javascript">
         var i = 0;
-        window.Echo.channel('laravel_database_user-channel')
+        window.Echo.private('channel.1')
          .listen('.UserEvent', (data) => {
             i++;
             console.log(data)
@@ -34,3 +34,4 @@
         });
     </script>
 </html>
+

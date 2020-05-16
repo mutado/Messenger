@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Message;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +20,7 @@ Route::get('/', function () {
 });
 
 Route::get('/t', function () {
-    event(new \App\Events\MessageSent());
+    // event(new \App\Events\MessageSent());
+    broadcast(new \App\Events\MessageSent(Message::find(1)));
     dd('Event Run Successfully.');
 });

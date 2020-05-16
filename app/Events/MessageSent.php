@@ -12,20 +12,24 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use App\Message;  
 
-class MessageSent implements ShouldBroadcastNow
+use Illuminate\Support\Facades\Auth; 
+
+class MessageSent implements ShouldBroadcast
 {
     use InteractsWithSockets, SerializesModels;
   
-    public $data = ['asas'];
+    private $message;
+    private $channelId;
   
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($message)
     {
-  
+        $this->message = $message;
+        $this->channelId = $message->channelId;
     }
   
     /**
@@ -35,7 +39,7 @@ class MessageSent implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('user-channel');
+        return new PresenceChannel("channel.{$this->channelId}");
     }
   
     /**
@@ -45,7 +49,7 @@ class MessageSent implements ShouldBroadcastNow
      */
     public function broadcastAs()
     {
-        return 'UserEvent';
+        return 'NewMessage';
     }
     /**
      * The event's broadcast name.
@@ -54,6 +58,6 @@ class MessageSent implements ShouldBroadcastNow
      */
     public function broadcastWith()
     {
-        return ['title'=>'This notification from ItSolutionStuff.com','message'=>Message::find(1)];
+        return ['message'=>$this->message];
     }
 }

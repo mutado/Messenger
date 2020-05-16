@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register');
+Route::get('status','ServerController@getStatus');
 
 Route::group(['middleware' => 'auth:api'], function(){
 
@@ -29,6 +30,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     Route::get('user','API\UserController@getAll');
     Route::get('user/channels','API\ChannelController@getUserChannels');
+    Route::post('user/update','API\UserController@update');
 
     Route::get('message','API\MessageController@index');
     Route::get('message/{id}','API\MessageController@getById');
@@ -39,5 +41,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('channel/{id}','API\ChannelController@getById');
     Route::get('channel/{channelId}/messages','API\ChannelController@getMessages');
     Route::get('channel/join/{id}','API\UserChannelsController@join');
-
+    Route::get('channel/joined/{id}','API\ChannelController@joined');
+    Route::post('channel/search','API\ChannelController@search');
+    
 });

@@ -43,7 +43,7 @@ class UserChannelsController extends Controller
             $input['channelId'] =  (integer)$id;
             $validator = Validator::make($input, [ 
                 'userId' => 'required|integer|exists:App\User,id',
-                'channelId' => 'required|integer|exists:App\User,id', 
+                'channelId' => 'required|integer|exists:App\Channel,id', 
             ]);
             if ($validator->fails()) { 
                 return response()->json(['error'=>$validator->errors()], 400);            
