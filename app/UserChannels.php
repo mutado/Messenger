@@ -14,4 +14,8 @@ class UserChannels extends Model
     protected $fillable = [
         'userId', 'channelId'
     ];
+
+    public function user(){
+        return $this->belongsTo('App\User','userId');
+    }
 }

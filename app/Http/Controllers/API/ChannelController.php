@@ -88,7 +88,13 @@ class ChannelController extends Controller
             $msgs = Message::where('channelId',$channelId)->paginate($itemsPerPage);
             $page = $msgs->lastPage();
         }
-		$msgs = Message::where('channelId',$channelId)->paginate($itemsPerPage,['*'], 'page',$page);
+        $msgs = Message::where('channelId',$channelId)
+        ->paginate($itemsPerPage,['*'], 'page',$page);
+        
+        $msgs->getCollection()->map(function($item){
+            $item['user'] = $item->user;
+            return $item;
+        });
 
 
         // $messages = Message::where('channelId', $channelId)

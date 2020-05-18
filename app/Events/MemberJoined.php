@@ -1,39 +1,33 @@
 <?php
-  
+
 namespace App\Events;
-  
+
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
-use App\Message;  
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
-use Illuminate\Support\Facades\Auth; 
-
-class MessageSent implements ShouldBroadcast
+class MemberJoined implements ShouldBroadcast
 {
-    use InteractsWithSockets, SerializesModels;
-  
-    private $message;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    private $user;
     private $channelId;
-  
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct($user,$channelId)
     {
-        $this->message = $message;
-        $this->channelId = $message->channelId;
-
-        $this->message['user'] = $message->user;
+        $this->user = $user;
+        $this->channelId = $channelId;
     }
-  
+
     /**
      * Get the channels the event should broadcast on.
      *
@@ -43,7 +37,7 @@ class MessageSent implements ShouldBroadcast
     {
         return new PresenceChannel("channel.{$this->channelId}");
     }
-  
+
     /**
      * The event's broadcast name.
      *
@@ -51,7 +45,7 @@ class MessageSent implements ShouldBroadcast
      */
     public function broadcastAs()
     {
-        return 'NewMessage';
+        return 'MemberJoined';
     }
     /**
      * The event's broadcast name.
@@ -60,6 +54,6 @@ class MessageSent implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return ['message'=>$this->message];
+        return ['user'=>$this->user];
     }
 }

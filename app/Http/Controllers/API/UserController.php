@@ -45,7 +45,7 @@ class UserController extends Controller
             $success['token'] =  $user->createToken('Messenger')-> accessToken;
             return response()->json(['success' => $success], $this-> successStatus);
         } else {
-            return response()->json(['error'=>'Unauthorised'], 401);
+            return response()->json(['error'=>'Your password or username do not match'], 400);
         }
     }
     /**
@@ -58,25 +58,23 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|max:255|alpha_dash|unique:App\User',
             'email' => 'required|email|unique:App\User',
-            'password' => 'required',
+            'password' => 'required|min:8',
             'c_password' => 'required|same:password',
         ]);
         if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 401);
+            return response()->json(['error'=>$validator->errors()], 200);
         }
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
 
-        echo $input['username'];
-
-        if (!isset($input['name'])) {
+        if (!isset($input['name'])&& empty($input['name'])) {
             $input['name'] = $input['username'];
         }
 
         $user = User::create($input);
         $success = $user;
         $success['token'] =  $user->createToken('MyApp')-> accessToken;
-        return response()->json(['success'=>$success], $this-> successStatus);
+        return response()->json(['success'=>$success], 201);
     }
     /**
      * details api

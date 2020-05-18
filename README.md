@@ -14,10 +14,12 @@ How to setup
     `cp .env.example .env`
 5. Generate an app encryption key\
     `php artisan key:generate`
-6. In the .env file, add database information to allow Laravel to connect to the database
-7. Migrate the database
-8. _Optional_: Seed the database
-9. To run it use\
+6. Generate a passport encryption key\
+    `php artisan passport:install`
+7. In the .env file, add database information to allow Laravel to connect to the database
+8. Migrate the database
+9. _Optional_: Seed the database
+10. To run it use\
     `php artisan serve`
 
 <hr>

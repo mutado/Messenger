@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Message;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
 use Validator;
 use Carbon\Carbon;
 
@@ -22,7 +22,7 @@ class MessageController extends Controller
     {
         $user = Auth::user();
         return Message
-        ::where('userSender',$user['id'])
+        ::where('userSender', $user['id'])
         ->paginate(20);
     }
 
@@ -30,7 +30,7 @@ class MessageController extends Controller
     {
         $user = Auth::user();
         echo $user['id'];
-        return Message::find($id)->where('userSender',$user['id'])->get();
+        return Message::find($id)->where('userSender', $user['id'])->get();
     }
 
     /**
@@ -41,24 +41,42 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [ 
+        $validator = Validator::make($request->all(), [
             'content' => 'required',
             'channelId' => 'required|integer|exists:App\Channel,id',
         ]);
-        if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors()], 400);            
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 400);
         }
         $input = $request->all();
-        $input['userSender'] = Auth::user()['id'];
-        $input['recieved']= Carbon::now();
-        $input['seen'] = false;
 
-        $msg = Message::create($input);
+        if (!isset($input['type'])||empty($input['type'])) {
+            $input['type'] = "message";
+        }
+        $msg = self::CreateMessage($input['content'], Auth::user()['id'], $input['channelId']);
 
         // Call new message event
-        \broadcast(new \App\Events\MessageSent($msg))->toOthers();
 
-        return response()->json(['success'=>$msg], $this->createdStatus); 
+        return response()->json(['success'=>$msg], $this->createdStatus);
+    }
+
+    /**
+     * @var $content
+     */
+    public static function CreateMessage($content, $userId, $channelId, $type = "message")
+    {
+        // echo \json_encode($msg);
+        // $msg->create();
+        $msg = Message::create([
+            'content'=>$content,
+            'userSender'=>$userId,
+            'channelId'=>$channelId,
+            'seen'=>false,
+            'type'=>$type
+            ]);
+        \broadcast(new \App\Events\MessageSent($msg))->toOthers();
+        
+        return $msg;
     }
 
     /**

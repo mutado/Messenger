@@ -12,7 +12,7 @@ class Message extends Model
      * @var array
      */
     protected $fillable = [
-        'content','userSender', 'channelId', 'send_at', 'recieved','seen'
+        'content','userSender', 'channelId', 'seen','type'
     ];
 
     /**
@@ -24,4 +24,8 @@ class Message extends Model
         'send_at' => 'datetime',
         'recieved' => 'datetime',
     ];
+
+    public function user(){
+        return $this->belongsTo('App\User','userSender');
+    }
 }

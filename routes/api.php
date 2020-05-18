@@ -37,10 +37,12 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('message','API\MessageController@store');
 
     Route::get('channel','API\ChannelController@index');
+    Route::get('channel/{id}/members','API\UserChannelsController@getMembers');
     Route::post('channel','API\ChannelController@store');
     Route::get('channel/{id}','API\ChannelController@getById');
     Route::get('channel/{channelId}/messages','API\ChannelController@getMessages');
     Route::get('channel/join/{id}','API\UserChannelsController@join');
+    Route::get('channel/leave/{id}','API\UserChannelsController@leave');
     Route::get('channel/joined/{id}','API\ChannelController@joined');
     Route::post('channel/search','API\ChannelController@search');
     
