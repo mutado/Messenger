@@ -28,9 +28,9 @@ TODO:
 - [x] User registration and authentication
   - [x] Simple registration without security
   - [x] JSON Web Tokens 
-  - [ ] Secured authorization
-- [ ] Send messages
+  - [x] Secured authorization
+- [x] Send messages
 - [ ] Encrypt Messeges
-- [ ] Add Channels (group chats)
+- [x] Add Channels (group chats)
 - [ ] Add Groups
 
